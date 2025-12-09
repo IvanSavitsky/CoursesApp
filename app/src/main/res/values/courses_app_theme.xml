@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Theme.CoursesApp" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:colorBackground">@color/dark</item>
+        <item name="editTextStyle">@style/Widget.CoursesApp.EditText</item>
+    </style>
+</resources>
