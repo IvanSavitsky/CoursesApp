@@ -36,6 +36,8 @@ class LoginFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.emailEdittext.filters = arrayOf(CyrillicInputFilter())
+
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
