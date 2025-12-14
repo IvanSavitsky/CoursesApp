@@ -10,11 +10,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.coursesapp.R
-import com.example.coursesapp.presentation.courseAdapterDelegate
 import com.example.coursesapp.data.LoadingState
 import com.example.coursesapp.databinding.FragmentCoursesBinding
 import com.example.coursesapp.domain.courses.Course
 import com.example.coursesapp.presentation.course.CourseFragment
+import com.example.coursesapp.presentation.courseAdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -60,8 +60,11 @@ class CoursesFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                     } else if (it.loadingState is LoadingState.Error) {
                         requireActivity().runOnUiThread {
-                            Toast.makeText(requireActivity(), "Ошибка сети", Toast.LENGTH_LONG)
-                                .show()
+                            Toast.makeText(
+                                requireActivity(),
+                                getString(R.string.network_failure),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                 }
