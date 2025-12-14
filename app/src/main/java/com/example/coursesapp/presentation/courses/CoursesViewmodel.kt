@@ -24,7 +24,7 @@ class CoursesViewmodel(
             emptyList()
         )
 
-    private val listOrderState = MutableStateFlow<SortOrder>(SortOrder.DESC)
+    private val listOrderState = MutableStateFlow(SortOrder.DESC)
 
     private val _state =
         MutableStateFlow(CoursesScreenState(LoadingState.Loading))
@@ -43,7 +43,9 @@ class CoursesViewmodel(
             }
 
             is CoursesScreenEvent.OnCourseClick -> {
-                commands.trySend(CoursesScreenUiCommand.NavigateToCourseScreen(id = event.id))
+                commands.trySend(
+                    CoursesScreenUiCommand.NavigateToCourseScreen(id = event.id)
+                )
             }
         }
     }

@@ -43,7 +43,9 @@ class FavouritesViewmodel(
             }
 
             is CoursesScreenEvent.OnCourseClick -> {
-                commands.trySend(CoursesScreenUiCommand.NavigateToCourseScreen(id = event.id))
+                commands.trySend(
+                    CoursesScreenUiCommand.NavigateToCourseScreen(id = event.id)
+                )
             }
         }
     }

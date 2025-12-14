@@ -22,7 +22,9 @@ class CoursesRepositoryImpl(
         }
         courseList.forEach {
             if (it.hasLike) {
-                database.favouriteCourseDao().insert(it.toFavouriteCourseEntity())
+                database.favouriteCourseDao().insert(
+                    it.toFavouriteCourseEntity()
+                )
             }
         }
         return courseList

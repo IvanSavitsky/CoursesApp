@@ -11,7 +11,11 @@ fun courseAdapterDelegate(
     onItemClick: () -> Unit,
     onToggleFavoriteClick: (Course) -> Unit,
 ) = adapterDelegateViewBinding<Course, ListItem, CourseItemBinding>(
-    { layoutInflater, root -> CourseItemBinding.inflate(layoutInflater, root, false) }
+    { layoutInflater, root ->
+        CourseItemBinding.inflate(
+            layoutInflater, root, false
+        )
+    }
 ) {
     binding.hasLike.setOnClickListener {
         onToggleFavoriteClick(item)

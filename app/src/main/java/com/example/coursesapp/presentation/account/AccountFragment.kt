@@ -25,8 +25,10 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.logoutButton.setOnClickListener {
             viewModel.logout()
-            requireParentFragment().parentFragmentManager.beginTransaction().replace(R.id.fragment,
-                LoginFragment()).commit()
+            requireParentFragment().parentFragmentManager.beginTransaction().replace(
+                R.id.fragment,
+                LoginFragment()
+            ).commit()
         }
     }
 
