@@ -7,31 +7,21 @@ import com.example.database.data.source.local.AppDatabase
 import com.example.network.data.source.remote.CourseList.CourseInfo
 import com.example.network.data.source.remote.CoursesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class CoursesRepositoryImpl(
-    val coursesApi: CoursesApi,
-    private val database: AppDatabase
+    private val coursesApi: CoursesApi
 ) : CoursesRepository {
     override suspend fun getAll(): List<Course> {
         val courseList = withContext(Dispatchers.IO) {
             val responseBody = coursesApi.getCourseList()
             responseBody.courseInfoList.map { it.toDomain() }
         }
-        courseList.forEach {
-            if (it.hasLike) {
-                database.favouriteCourseDao().insert(
-                    it.toFavouriteCourseEntity()
-                )
-            }
-        }
         return courseList
-    }
-
-    override suspend fun deleteById(id: Int) {
-        database.favouriteCourseDao().deleteById(id)
     }
 }
 

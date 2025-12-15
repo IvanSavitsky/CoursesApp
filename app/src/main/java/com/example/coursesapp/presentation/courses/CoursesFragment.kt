@@ -27,7 +27,7 @@ class CoursesFragment : Fragment() {
     private val adapter = ListDelegationAdapter(
         courseAdapterDelegate(
             onToggleFavoriteClick = { course: Course ->
-                viewModel.toggleFavorite(course)
+                viewModel.onEvent(CoursesScreenEvent.OnToggleFavoriteClick(course))
             },
             onItemClick = {
                 parentFragmentManager.beginTransaction()
@@ -49,7 +49,7 @@ class CoursesFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         binding.sortButton.setOnClickListener {
-            viewModel.sortByDate()
+            viewModel.onEvent(CoursesScreenEvent.OnSortByDateClick)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

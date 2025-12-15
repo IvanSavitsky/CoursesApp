@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.coursesapp.databinding.ActivityMainBinding
 import com.example.coursesapp.domain.auth.AuthRepository
+import com.example.coursesapp.domain.auth.CheckAuthUseCase
 import com.example.coursesapp.presentation.MainFragment
 import com.example.coursesapp.presentation.login.LoginFragment
 import org.koin.android.ext.android.inject
@@ -16,7 +17,7 @@ import org.koin.android.ext.android.inject
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    private val authRepository: AuthRepository by inject()
+    private val checkAuthUseCase: CheckAuthUseCase by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            if (authRepository.isAuthorized() == true) {
+            if (checkAuthUseCase() == true) {
                 supportFragmentManager
                     .beginTransaction()
                     .add(binding.fragment.id, MainFragment())

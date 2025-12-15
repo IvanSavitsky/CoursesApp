@@ -3,27 +3,22 @@ package com.example.coursesapp.presentation.courses
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.coursesapp.data.LoadingState
+import com.example.coursesapp.domain.LoadAndSaveCoursesUseCase
+import com.example.coursesapp.domain.SortCourseListByPublishDateUseCase
 import com.example.coursesapp.domain.courses.Course
-import com.example.coursesapp.domain.courses.CoursesRepository
-import com.example.database.data.FavouriteCourseEntity
-import com.example.database.data.source.local.FavourtiteCourseDao
+import com.example.coursesapp.domain.favourites.ToggleFavouritesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CoursesViewmodel(
-    private val coursesRepository: CoursesRepository,
-    private val favouriteCourseDao: FavourtiteCourseDao
+    private val loadAndSaveCoursesUseCase: LoadAndSaveCoursesUseCase,
+    private val toggleFavouritesUseCase: ToggleFavouritesUseCase,
+    private val sortCoursesListByPublishDateUseCase: SortCourseListByPublishDateUseCase
 ) : ViewModel() {
-    private val courseListFlow =
-        MutableStateFlow<List<Course>>(
-            emptyList()
-        )
-
     private val listOrderState = MutableStateFlow(SortOrder.DESC)
 
     private val _state =
@@ -39,7 +34,9 @@ class CoursesViewmodel(
     fun onEvent(event: CoursesScreenEvent) {
         when (event) {
             is CoursesScreenEvent.OnToggleFavoriteClick -> {
-                toggleFavorite(event.course)
+                viewModelScope.launch {
+                    toggleFavouritesUseCase(event.course)
+                }
             }
 
             is CoursesScreenEvent.OnCourseClick -> {
@@ -47,21 +44,23 @@ class CoursesViewmodel(
                     CoursesScreenUiCommand.NavigateToCourseScreen(id = event.id)
                 )
             }
-        }
-    }
 
-    fun sortByDate() {
-        if (_state.value.loadingState is LoadingState.Loaded<List<Course>>) {
-            _state.value = CoursesScreenState(
-                loadingState = LoadingState.Loaded(
-                    value = with((_state.value.loadingState as LoadingState.Loaded<List<Course>>)) {
-                        when (listOrderState.value) {
-                            SortOrder.ASC -> value.sortedBy { it.publishDate }
-                            SortOrder.DESC -> value.sortedByDescending { it.publishDate }
-                        }
-                    }
-                )
-            )
+            is CoursesScreenEvent.OnSortByDateClick -> {
+                if (_state.value.loadingState is LoadingState.Loaded<List<Course>>) {
+                    _state.value = CoursesScreenState(
+                        loadingState = LoadingState.Loaded(
+                            value = with(
+                                (_state.value.loadingState as LoadingState.Loaded<List<Course>>)
+                            ) {
+                                sortCoursesListByPublishDateUseCase(
+                                    courseList = value,
+                                    sortOrder = listOrderState.value
+                                )
+                            }
+                        )
+                    )
+                }
+            }
         }
     }
 
@@ -70,24 +69,15 @@ class CoursesViewmodel(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                courseListFlow.value = coursesRepository.getAll()
-
-                combine(
-                    courseListFlow,
-                    favouriteCourseDao.getAllAsFlow(),
-                ) { courseList, favorites ->
-                    CoursesScreenState(
+                loadAndSaveCoursesUseCase().collect {
+                    _state.value = CoursesScreenState(
                         loadingState = LoadingState.Loaded(
-                            value = buildCourseItems(
-                                courseList,
-                                favorites
-                            )
+                            value = it
                         )
                     )
-                }.collect {
-                    _state.value = it
                 }
             } catch (exception: Exception) {
+                exception.printStackTrace()
                 _state.update { CoursesScreenState(LoadingState.Error(exception)) }
                 commands.trySend(
                     CoursesScreenUiCommand.ShowErrorMessage(
@@ -96,46 +86,5 @@ class CoursesViewmodel(
                 )
             }
         }
-    }
-
-    fun toggleFavorite(course: Course) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (course.hasLike) {
-                favouriteCourseDao.deleteById(course.id)
-            } else {
-                favouriteCourseDao.insert(
-                    FavouriteCourseEntity(
-                        id = course.id,
-                        title = course.title,
-                        text = course.text,
-                        price = course.price,
-                        rate = course.rate,
-                        startDate = course.startDate,
-                        hasLike = true,
-                        publishDate = course.publishDate
-                    )
-                )
-            }
-        }
-    }
-
-    private fun buildCourseItems(
-        courseList: List<Course>,
-        favorites: List<FavouriteCourseEntity>
-    ) = courseList.map { course ->
-        Course(
-            id = course.id,
-            title = course.title,
-            text = course.text,
-            price = course.price,
-            rate = course.rate,
-            startDate = course.startDate,
-            hasLike = if (course.hasLike) {
-                true
-            } else {
-                favorites.firstOrNull { it.id == course.id } != null
-            },
-            publishDate = course.publishDate
-        )
     }
 }

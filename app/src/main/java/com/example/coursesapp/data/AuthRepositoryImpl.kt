@@ -6,32 +6,14 @@ import com.example.coursesapp.domain.auth.AuthRepository
 
 class AuthRepositoryImpl(val sharedPreferences: SharedPreferences) : AuthRepository {
     private val prefName = "isAuthorized"
-    override fun isAuthorized(): Boolean {
-        return sharedPreferences.getString(prefName, "false").toBoolean()
-    }
 
-    override fun login() {
+    override fun write(value: String) {
         sharedPreferences.edit {
-            putString(prefName, "true")
+            putString(prefName, value)
         }
     }
 
-    override fun logout() {
-        sharedPreferences.edit {
-            putString(prefName, "false")
-        }
-    }
-
-    override fun checkValidation(
-        email: String,
-        password: String
-    ): Boolean {
-        val emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$".toRegex()
-
-        if (!email.isEmpty() && !password.isEmpty() && emailRegex.matches(email)) {
-            return true
-        } else {
-            return false
-        }
+    override fun read(defaultValue: String): String {
+        return sharedPreferences.getString(prefName, defaultValue)!!
     }
 }

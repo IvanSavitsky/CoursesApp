@@ -8,7 +8,7 @@ import com.example.database.data.FavouriteCourseEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface FavourtiteCourseDao {
+interface FavouriteCourseDao {
     @Query("SELECT * FROM favourite_courses")
     fun getAllAsFlow(): Flow<List<FavouriteCourseEntity>>
 

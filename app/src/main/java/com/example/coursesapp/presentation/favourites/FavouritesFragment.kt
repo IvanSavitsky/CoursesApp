@@ -26,11 +26,11 @@ class FavouritesFragment : Fragment() {
     private val adapter = ListDelegationAdapter(
         courseAdapterDelegate(
             onToggleFavoriteClick = { course: Course ->
-                viewModel.toggleFavorite(course)
+                viewModel.onEvent(FavouritesScreenEvent.OnToggleFavoriteClick(course))
             },
             onItemClick = {
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment, CourseFragment())
+                    .replace(R.id.main_fragment, CourseFragment())
                     .addToBackStack("CourseFragment").commit()
             }
         )
