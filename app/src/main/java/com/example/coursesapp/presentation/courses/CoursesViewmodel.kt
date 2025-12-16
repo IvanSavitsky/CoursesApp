@@ -2,11 +2,12 @@ package com.example.coursesapp.presentation.courses
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.coursesapp.data.LoadingState
-import com.example.coursesapp.domain.LoadAndSaveCoursesUseCase
-import com.example.coursesapp.domain.SortCourseListByPublishDateUseCase
-import com.example.coursesapp.domain.courses.Course
-import com.example.coursesapp.domain.favourites.ToggleFavouritesUseCase
+import com.example.data.LoadingState
+import com.example.domain.use_cases.courses.LoadAndSaveCoursesUseCase
+import com.example.domain.use_cases.courses.SortCourseListByPublishDateUseCase
+import com.example.domain.use_cases.courses.SortOrder
+import com.example.domain.entity.Course
+import com.example.domain.use_cases.favourites.ToggleFavouritesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

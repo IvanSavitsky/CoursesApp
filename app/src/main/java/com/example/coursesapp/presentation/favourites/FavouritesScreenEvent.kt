@@ -1,6 +1,6 @@
 package com.example.coursesapp.presentation.favourites
 
-import com.example.coursesapp.domain.courses.Course
+import com.example.domain.entity.Course
 
 interface FavouritesScreenEvent {
     data class OnToggleFavoriteClick(val course: Course) : FavouritesScreenEvent

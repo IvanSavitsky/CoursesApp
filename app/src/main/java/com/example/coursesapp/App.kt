@@ -1,8 +1,8 @@
 package com.example.coursesapp
 
 import android.app.Application
-import com.example.database.databaseModule
-import com.example.network.networkModule
+import com.example.data.dataModule
+import com.example.domain.domainModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -14,7 +14,7 @@ class App : Application() {
         startKoin {
             androidLogger(level = Level.DEBUG)
             androidContext(this@App)
-            modules(appModule, networkModule, databaseModule)
+            modules(appModule, dataModule, domainModule)
         }
     }
 }

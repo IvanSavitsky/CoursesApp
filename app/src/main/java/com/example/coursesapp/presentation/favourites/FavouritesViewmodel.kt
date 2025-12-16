@@ -2,10 +2,10 @@ package com.example.coursesapp.presentation.favourites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.coursesapp.data.LoadingState
-import com.example.coursesapp.domain.favourites.GetFavouritesUseCase
-import com.example.coursesapp.domain.favourites.ToggleFavouritesUseCase
 import com.example.coursesapp.presentation.courses.CoursesScreenUiCommand
+import com.example.data.LoadingState
+import com.example.domain.use_cases.favourites.GetFavouritesUseCase
+import com.example.domain.use_cases.favourites.ToggleFavouritesUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map

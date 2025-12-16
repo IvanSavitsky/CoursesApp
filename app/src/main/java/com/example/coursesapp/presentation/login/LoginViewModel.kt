@@ -1,9 +1,8 @@
 package com.example.coursesapp.presentation.login
 
 import androidx.lifecycle.ViewModel
-import com.example.coursesapp.domain.auth.AuthRepository
-import com.example.coursesapp.domain.auth.CheckValidationUseCase
-import com.example.coursesapp.domain.auth.LoginUseCase
+import com.example.domain.use_cases.auth.CheckValidationUseCase
+import com.example.domain.use_cases.auth.LoginUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class LoginViewModel(

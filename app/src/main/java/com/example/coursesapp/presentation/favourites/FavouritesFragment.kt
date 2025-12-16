@@ -10,11 +10,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.coursesapp.R
-import com.example.coursesapp.data.LoadingState
 import com.example.coursesapp.databinding.FragmentFavouritesBinding
-import com.example.coursesapp.domain.courses.Course
 import com.example.coursesapp.presentation.course.CourseFragment
 import com.example.coursesapp.presentation.courseAdapterDelegate
+import com.example.data.LoadingState
+import com.example.domain.entity.Course
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel

@@ -8,10 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.coursesapp.databinding.ActivityMainBinding
-import com.example.coursesapp.domain.auth.AuthRepository
-import com.example.coursesapp.domain.auth.CheckAuthUseCase
 import com.example.coursesapp.presentation.MainFragment
 import com.example.coursesapp.presentation.login.LoginFragment
+import com.example.domain.use_cases.auth.CheckAuthUseCase
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {

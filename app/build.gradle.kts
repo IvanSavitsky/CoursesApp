@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("org.jetbrains.kotlin.plugin.serialization")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -50,13 +50,13 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.material)
-    implementation("androidx.recyclerview:recyclerview:1.4.0")
-    implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl:4.3.2")
-    implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:4.3.2")
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.adapterdelegates)
+    implementation(libs.adapterdelegates.viewbinding)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    val koin_version = "4.0.3"
-    implementation("io.insert-koin:koin-core:$koin_version")
-    implementation("io.insert-koin:koin-android:$koin_version")
-    implementation(project(":network"))
-    implementation(project(":database"))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
 }

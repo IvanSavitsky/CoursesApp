@@ -3,8 +3,8 @@ package com.example.coursesapp.presentation
 import androidx.core.content.ContextCompat
 import com.example.coursesapp.R
 import com.example.coursesapp.databinding.CourseItemBinding
-import com.example.coursesapp.domain.courses.Course
-import com.example.coursesapp.domain.courses.ListItem
+import com.example.domain.entity.Course
+import com.example.domain.entity.ListItem
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 
 fun courseAdapterDelegate(
